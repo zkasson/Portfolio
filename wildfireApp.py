@@ -34,8 +34,8 @@ agency_to_province = {
 def read_fl(item_id):
     living_atlas_item = gis.content.get(item_id)
     feature_layer = living_atlas_item.layers[0]
-    sdf = feature_layer.query(where="1=1", out_sr=4326).sdf
-    return sdf
+    wf_sdf = feature_layer.query(where="1=1", out_sr=4326).sdf
+    return wf_sdf
 
 # Retrieve Wildfire layer and create SDF
 item_id = "21638fcd54d14a25b6f1affdef812146"
