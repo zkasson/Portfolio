@@ -3,7 +3,7 @@ import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
-from arcgis
+import arcgis
 
 
 
