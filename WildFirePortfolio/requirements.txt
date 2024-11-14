@@ -3,7 +3,5 @@ geopandas
 pandas
 matplotlib
 leafmap
-libkrb5-dev
-krb5-config
 gssapi
 arcgis
