@@ -30,7 +30,7 @@ agency_to_province = {
     'yt': 'Yukon'
 }
 
-
+@st.cache_data
 def read_fl(item_id):
     living_atlas_item = gis.content.get(item_id)
     feature_layer = living_atlas_item.layers[0]
