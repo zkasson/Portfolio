@@ -1,1 +1,2 @@
 krb5-config
+libkrb5-dev
