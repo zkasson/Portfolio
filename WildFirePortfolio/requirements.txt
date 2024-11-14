@@ -1,0 +1,6 @@
+streamlit
+geopandas 
+pandas
+matplotlib
+leafmap
+arcgis
