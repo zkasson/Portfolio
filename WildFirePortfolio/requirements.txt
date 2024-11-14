@@ -4,5 +4,5 @@ pandas
 matplotlib
 leafmap
 arcgis
-gssapi
+gssapi==1.9.0
 krb5-config
