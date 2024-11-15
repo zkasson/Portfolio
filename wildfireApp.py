@@ -86,10 +86,6 @@ stage_of_control_mapping = {
 canada_wildfire_sdf['Stage_of_Control'] = canada_wildfire_sdf['Stage_of_Control'].replace(stage_of_control_mapping)
 
 
-# Filter for fires in specific provinces -- This is for Spatial use 
-filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
-
-
 # Group by Province and Stage_of_Control, then sum Hectares__Ha_
 area_sdf = canada_wildfire_sdf.groupby(['Province', 'Stage_of_Control'])['Hectares__Ha_'].sum().reset_index()
 area_sdf = area_sdf.pivot(index='Province', columns='Stage_of_Control', values='Hectares__Ha_').fillna(0)
@@ -120,12 +116,18 @@ max_sh = area_final['Under Control'].max()  # Find the max value in the SH colum
 upper_limit = max_sh + 2500  
 rounded_upper_limit = round(upper_limit / 100) * 100 
 
+area_final = area_final[area_final['Province'] == province]
+
 # Create plot
 fig, ax = plt.subplots(1, 1)
 
 area_final.plot(kind='bar', ax=ax,
-    ylabel=unit, xlabel='Province')
+    ylabel=unit, xlabel='Control')
 ax.set_title('Hectares of Fire')
 ax.set_ylim(0, rounded_upper_limit)
 ax.set_xticklabels([])
 stats = st.sidebar.pyplot(fig)
+
+
+# Filter for fires in specific provinces -- This is for Spatial use 
+filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
