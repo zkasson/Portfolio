@@ -44,7 +44,7 @@ def read_json(url):
     # Clean the 'prov_name_en' column to remove brackets and rename it
     if 'prov_name_en' in territories_gdf.columns:
         territories_gdf['prov_name_en'] = territories_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
-        territories_gdf.rename(columns={'prov_name_en': 'English Name'}, inplace=True)
+        territories_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
     return territories_gdf
 
 
