@@ -42,9 +42,9 @@ def read_fl(item_id):
 def read_json(url):
     prov_gdf = gpd.read_file(url)
     # Clean the 'prov_name_en' column to remove brackets and rename it
-    if 'prov_name_en' in prov_gdf.columns:
-        prov_gdf['prov_name_en'] = prov_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
-        prov_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
+    # if 'prov_name_en' in prov_gdf.columns:
+    #     prov_gdf['prov_name_en'] = prov_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
+    #     prov_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
     return prov_gdf
 
 
