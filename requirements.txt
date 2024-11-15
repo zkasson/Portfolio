@@ -1,7 +1,7 @@
 streamlit
 geopandas 
-pandas == 2.0.1
+pandas 
 matplotlib
 leafmap
 gssapi
-arcgis == 2.3.0.1
+arcgis 
