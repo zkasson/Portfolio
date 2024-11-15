@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 from arcgis.gis import GIS
-from arcgis.features import GeoAccessor, GeoSeriesAccessor
+
 gis = GIS()
 
 # Set up 
