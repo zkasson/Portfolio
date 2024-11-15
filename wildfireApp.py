@@ -156,7 +156,7 @@ map.add_basemap(basemap_selection)
 map.add_gdf(
     gdf=territories_gdf,
     zoom_to_layer=False,
-    layer_name='Province',
+    layer_name='Provinces',
     info_mode='on_click',
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
