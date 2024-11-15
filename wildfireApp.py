@@ -119,7 +119,7 @@ area_final = area_final.reset_index().melt(id_vars=['Province'],
 area_final = area_final[area_final['Province'] == province]
 
 # Calculate the upper limit for the y-axis
-max_sh = area_final['Under Control'].max()  # Find the max value in the SH column
+max_sh = area_final['Area'].max()  # Find the max value in the SH column
 upper_limit = max_sh + 2500  
 rounded_upper_limit = round(upper_limit / 100) * 100 
 
