@@ -159,6 +159,15 @@ map.add_gdf(
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
 
+selected_prov_gdf = territories_gdf[territories_gdf['Province'] == province]
+
+map.add_gdf(
+    gdf=selected_prov_gdf,
+    layer_name='Selected Province',
+    zoom_to_layer=True,
+    info_mode=None,
+    style={'color': 'black', 'fill': None, 'weight': 2.5}
+ )
 
 
 
