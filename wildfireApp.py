@@ -83,7 +83,10 @@ stage_of_control_mapping = {
     'Pre': 'Prescribed'
 }
 canada_wildfire_sdf['Stage_of_Control'] = canada_wildfire_sdf['Stage_of_Control'].replace(stage_of_control_mapping)
-
+bh_color = '#ffff00'
+oc_color = '#ff0000'
+uc_color = '#008000'
+pre_color = "#ffffff"
 
 # Group by Province and Stage_of_Control, then sum Hectares__Ha_
 area_sdf = canada_wildfire_sdf.groupby(['Province', 'Stage_of_Control'])['Hectares__Ha_'].sum().reset_index()
@@ -120,7 +123,7 @@ area_final = area_final[area_final['Province'] == province]
 
 # Calculate the upper limit for the y-axis
 max_sh = area_final['Area'].max()  # Find the max value in the SH column
-upper_limit = max_sh + 2500  
+upper_limit = max_sh + 5000  
 rounded_upper_limit = round(upper_limit / 100) * 100 
 
 area_final = area_final[area_final['Province'] == province]
@@ -128,7 +131,7 @@ area_final = area_final[area_final['Province'] == province]
 # Create plot
 fig, ax = plt.subplots(1, 1)
 
-area_final.plot(kind='bar', ax=ax,
+area_final.plot(kind='bar', ax=ax,color=[pre_color,bh_color, oc_color, uc_color],
     ylabel=unit, xlabel='Control')
 ax.set_title('Hectares of Fire')
 ax.set_ylim(0, rounded_upper_limit)
@@ -138,3 +141,25 @@ stats = st.sidebar.pyplot(fig)
 
 # Filter for fires in specific provinces -- This is for Spatial use 
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
+
+## Create the map
+
+map = leafmap.Map(
+    layers_control=True,
+    draw_control=False,
+    measure_control=False,
+    fullscreen_control=False)
+
+map.add_basemap(basemap_selection)
+map.add_gdf(
+    gdf=filtered_fires,
+    zoom_to_layer=False,
+    layer_name='districts',
+    info_mode='on_click',
+    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+    )
+
+
+
+
+map_streamlit = map.to_streamlit(800, 600)
