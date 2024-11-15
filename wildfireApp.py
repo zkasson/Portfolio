@@ -7,6 +7,7 @@ from arcgis.gis import GIS
 from arcgis.features import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
 
+
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.title('Canadian Wildfire Dashboard')
@@ -66,6 +67,7 @@ canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 # Create dropdown for provinces
 provinces = canada_wildfire_sdf['Province'].unique()
 province = st.sidebar.selectbox('Select a district', provinces)
+st.sidebar.write(province)
 basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.DarkMatter', 'CartoDB.Positron', 'openstreetmap','ESRI'])
 
 # Create check box and sdf for US fires
@@ -159,16 +161,19 @@ map.add_gdf(
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
 
-selected_prov_gdf = territories_gdf[territories_gdf['Province'] == province]
+# selected_prov_gdf = territories_gdf[territories_gdf['Province'] == province]
 
-map.add_gdf(
-    gdf=selected_prov_gdf,
-    layer_name='Selected Province',
-    zoom_to_layer=True,
-    info_mode=None,
-    style={'color': 'black', 'fill': None, 'weight': 2.5}
- )
+# map.add_gdf(
+#     gdf=selected_prov_gdf,
+#     layer_name='Selected Province',
+#     zoom_to_layer=True,
+#     info_mode=None,
+#     style={'color': 'black', 'fill': None, 'weight': 2.5}
+#  )
 
+
+
+map_streamlit = map.to_streamlit(800, 600)
 
 
 map_streamlit = map.to_streamlit(800, 600)
