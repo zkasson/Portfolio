@@ -1,6 +1,6 @@
 streamlit
 geopandas 
-pandas
+pandas == 2.0.1
 matplotlib
 leafmap
 gssapi
