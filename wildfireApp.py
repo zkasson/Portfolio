@@ -7,7 +7,6 @@ from arcgis.gis import GIS
 from arcgis.features import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
 
-
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.title('Canadian Wildfire Dashboard')
@@ -110,6 +109,14 @@ def correct_unit(area_sdf,unit_df):
         area_final['Under Control'] = area_sdf['Under Control'] * conversion_factor
         return area_final
 area_final = correct_unit(area_sdf,unit)
+
+area_final = area_final.reset_index().melt(id_vars=['Province'], 
+                                                  value_vars=['Being Held', 'Out of Control', 'Prescribed', 'Under Control'],
+                                                  var_name='Stage_of_Control', 
+                                                  value_name='Area')
+
+# Filter data for the selected province (if required)
+area_final = area_final[area_final['Province'] == province]
 
 # Calculate the upper limit for the y-axis
 max_sh = area_final['Under Control'].max()  # Find the max value in the SH column
