@@ -75,6 +75,8 @@ canada_wildfire_sdf['Stage_of_Control'] = canada_wildfire_sdf['Stage_of_Control'
 # Filter for fires in specific provinces
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
 
+st.write(filtered_fires)
+
 unit = st.sidebar.radio(
     "Select a Unit",
     ['Hectares', 'Acres']
