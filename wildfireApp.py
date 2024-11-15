@@ -41,7 +41,7 @@ def read_fl(item_id):
 # Retrieve Wildfire layer and create SDF
 item_id = "21638fcd54d14a25b6f1affdef812146"
 wildfire_sdf = read_fl(item_id)
-
+st.write(wildfire_sdf)
 # Filter and create Province column
 conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
 canada_wildfire_sdf = wildfire_sdf[wildfire_sdf['Agency'] != 'conus']
