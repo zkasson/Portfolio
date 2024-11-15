@@ -53,8 +53,8 @@ def read_json(url):
 item_id = "21638fcd54d14a25b6f1affdef812146"
 json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/georef-canada-province%40public.geojson'
 wildfire_sdf = read_fl(item_id)
-territories_gdf = read_json(json_file)
-
+prov_gdf = read_json(json_file)
+st.write(prov_gdf)
 
 # Filter and create Province column, Map from agency to province
 conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
@@ -142,5 +142,3 @@ stats = st.sidebar.pyplot(fig)
 
 # Filter for fires in specific provinces -- This is for Spatial use 
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
-
-st.write(territories_gdf)
