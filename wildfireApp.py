@@ -7,7 +7,6 @@ from arcgis.gis import GIS
 from arcgis.features import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
 
-
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.title('Canadian Wildfire Dashboard')
@@ -43,9 +42,9 @@ def read_fl(item_id):
 def read_json(url):
     territories_gdf = gpd.read_file(url)
     # Clean the 'prov_name_en' column to remove brackets and rename it
-    # if 'prov_name_en' in territories_gdf.columns:
-    #     territories_gdf['prov_name_en'] = territories_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
-    #     territories_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
+    if 'prov_name_en' in territories_gdf.columns:
+        territories_gdf['prov_name_en'] = territories_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
+        territories_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
     return territories_gdf
 
 
@@ -145,19 +144,3 @@ stats = st.sidebar.pyplot(fig)
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
 
 st.write(territories_gdf)
-## Create the map
-
-map = leafmap.Map(
-    layers_control=True,
-    draw_control=False,
-    measure_control=False,
-    fullscreen_control=False)
-
-map.add_basemap(basemap_selection)
-map.add_gdf(
-    gdf=territories_gdf,
-    zoom_to_layer=False,
-    layer_name='Provinces',
-    info_mode='on_click',
-    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
-    )
