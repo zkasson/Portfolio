@@ -4,4 +4,4 @@ pandas
 matplotlib
 leafmap
 gssapi
-arcgis 
+arcgis == 2.3.0.1
