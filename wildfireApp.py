@@ -6,6 +6,7 @@ import leafmap.foliumap as leafmap
 from arcgis.gis import GIS
 from arcgis.features import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
+
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.title('Canadian Wildfire Dashboard')
@@ -141,6 +142,24 @@ stats = st.sidebar.pyplot(fig)
 # Filter for fires in specific provinces -- This is for Spatial use 
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
 
+## Create the map
 
-# Filter for fires in specific provinces -- This is for Spatial use 
-filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
+map = leafmap.Map(
+    layers_control=True,
+    draw_control=False,
+    measure_control=False,
+    fullscreen_control=False)
+
+map.add_basemap(basemap_selection)
+map.add_gdf(
+    gdf=territories_gdf,
+    zoom_to_layer=False,
+    layer_name='Province',
+    info_mode='on_click',
+    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+    )
+
+
+
+
+map_streamlit = map.to_streamlit(800, 600)
