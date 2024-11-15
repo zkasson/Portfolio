@@ -6,7 +6,6 @@ import leafmap.foliumap as leafmap
 from arcgis.gis import GIS
 from arcgis.features import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
-
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 st.title('Canadian Wildfire Dashboard')
@@ -131,12 +130,16 @@ area_final = area_final[area_final['Province'] == province]
 # Create plot
 fig, ax = plt.subplots(1, 1)
 
-area_final.plot(kind='bar', ax=ax,color=[pre_color,bh_color, oc_color, uc_color],
+area_final.plot(kind='bar', ax=ax,#color=[pre_color,bh_color, oc_color, uc_color],
     ylabel=unit, xlabel='Control')
 ax.set_title('Hectares of Fire')
 ax.set_ylim(0, rounded_upper_limit)
 ax.set_xticklabels([])
 stats = st.sidebar.pyplot(fig)
+
+
+# Filter for fires in specific provinces -- This is for Spatial use 
+filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
 
 
 # Filter for fires in specific provinces -- This is for Spatial use 
