@@ -38,12 +38,13 @@ def read_fl(item_id):
     feature_layer = living_atlas_item.layers[0]
     sdf = feature_layer.query(where="1=1", out_sr=4326).sdf
     return sdf
-
+@st.cache_data
 def read_json(url):
     prov_gdf = gpd.read_file(url)
     # Clean the 'prov_name_en' column to remove brackets and rename it
-    prov_gdf['prov_name_en'] = prov_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
-    prov_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
+    if 'prov_name_en' in prov_gdf.columns:
+        prov_gdf['prov_name_en'] = prov_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
+        prov_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
     return prov_gdf
 
 
@@ -141,35 +142,3 @@ stats = st.sidebar.pyplot(fig)
 
 # Filter for fires in specific provinces -- This is for Spatial use 
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
-
-
-## Create the map
-
-map = leafmap.Map(
-    layers_control=True,
-    draw_control=False,
-    measure_control=False,
-    fullscreen_control=False)
-
-map.add_basemap(basemap_selection)
-map.add_gdf(
-    gdf=prov_gdf,
-    zoom_to_layer=False,
-    layer_name='Provinces',
-    info_mode='on_click',
-    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
-    )
-
-selected_prov_gdf = prov_gdf[prov_gdf['Province'] == province]
-
-map.add_gdf(
-    gdf=selected_prov_gdf,
-    layer_name='Selected Province',
-    zoom_to_layer=True,
-    info_mode=None,
-    style={'color': 'black', 'fill': None, 'weight': 2.5}
- )
-
-
-
-map_streamlit = map.to_streamlit(800, 600)
