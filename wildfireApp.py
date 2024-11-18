@@ -131,7 +131,7 @@ else:
 
 
 if no_fires_bool:
-    st.sidebar.write
+    st.sidebar.write(f'There are no ongoing fires in {province})
 else:
     # Create plot
     fig, ax = plt.subplots(1, 1)
