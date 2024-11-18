@@ -51,8 +51,8 @@ provs_gdf = read_json(json_file)
 st.write(provs_gdf)
 
 # Filter and create Province column, Map from agency to province
-conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus' | wildfire_sdf['Agency'] == 'ak']
-canada_wildfire_sdf = wildfire_sdf[wildfire_sdf['Agency'] != 'conus' | wildfire_sdf['Agency'] != 'ak']
+conus_fires = wildfire_sdf[(wildfire_sdf['Agency'] == 'conus') | (wildfire_sdf['Agency'] == 'ak')]
+canada_wildfire_sdf = wildfire_sdf[(wildfire_sdf['Agency'] != 'conus') | (wildfire_sdf['Agency'] != 'ak')]
 canada_wildfire_sdf['Province'] = wildfire_sdf['Agency'].map(agency_to_province)
 canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 
