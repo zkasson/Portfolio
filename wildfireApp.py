@@ -158,7 +158,7 @@ map.add_gdf(
 selected_provs_gdf = provs_gdf[provs_gdf['Province'] == province]
 
 map.add_gdf(
-    gdf=selected_prov_gdf,
+    gdf=selected_provs_gdf,
     layer_name='Selected Province',
     zoom_to_layer=True,
     info_mode=None,
