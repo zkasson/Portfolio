@@ -100,11 +100,14 @@ def correct_unit(area_sdf,unit_df):
         return area_final
     elif unit_df == 'Acres':
         area_final = area_sdf
-        area_final['Prescribed'] = area_sdf['Prescribed'] * conversion_factor
-        area_final['Being Held'] = area_sdf['Being Held'] * conversion_factor
-        area_final['Out of Control'] = area_sdf['Out of Control'] * conversion_factor
-        area_final['Under Control'] = area_sdf['Under Control'] * conversion_factor
+        columns_to_convert = ['Prescribed', 'Being Held', 'Out of Control', 'Under Control']
+        for col in columns_to_convert:
+            if col in area_final.columns:
+                area_final[col] = area_final[col] * conversion_factor
         return area_final
+    else:
+        # Handle unexpected unit cases
+        raise ValueError(f"Unsupported unit: {unit_df}")
 area_final = correct_unit(area_sdf,unit)
 
 # Dynamically select only the columns present in the DataFrame
@@ -114,15 +117,17 @@ area_final = area_final.reset_index().melt(id_vars=['Province'],
                                                   var_name='Stage_of_Control', 
                                                   value_name='Area')
 
-# Filter data for the selected province (if required)
+# Filter data for the selected province
 area_final = area_final[area_final['Province'] == province]
 
-# Calculate the upper limit for the y-axis
-max_sh = area_final['Area'].max()  # Find the max value in the SH column
-upper_limit = max_sh + 5000  
-rounded_upper_limit = round(upper_limit / 100) * 100 
+if area_final['Area'].dropna().empty:
+    rounded_upper_limit =5000
+else:
+    # Calculate the upper limit for the y-axis
+    max_sh = area_final['Area'].max()  # Find the max value in the area column
+    upper_limit = max_sh + 5000  
+    rounded_upper_limit = round(upper_limit / 100) * 100 
 
-area_final = area_final[area_final['Province'] == province]
 
 # Create plot
 fig, ax = plt.subplots(1, 1)
