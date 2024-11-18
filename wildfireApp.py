@@ -60,7 +60,7 @@ canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 # Create dropdown for provinces
 provinces = provs_gdf['Province'].unique()
 province = st.sidebar.selectbox('Select a district', provinces)
-basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.DarkMatter', 'CartoDB.Positron', 'openstreetmap','ESRI'])
+basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
 
 # Create check box and sdf for US fires
 conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
