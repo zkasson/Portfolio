@@ -120,7 +120,8 @@ area_final = area_final.reset_index().melt(id_vars=['Province'],
 # Filter data for the selected province
 area_final = area_final[area_final['Province'] == province]
 
-if area_final['Area'].dropna().empty:
+no_fires_bool = area_final['Area'].dropna().empty
+if no_fires_bool:
     rounded_upper_limit =5000
 else:
     # Calculate the upper limit for the y-axis
@@ -129,15 +130,18 @@ else:
     rounded_upper_limit = round(upper_limit / 100) * 100 
 
 
-# Create plot
-fig, ax = plt.subplots(1, 1)
+if no_fires_bool:
+    st.sidebar.write
+else:
+    # Create plot
+    fig, ax = plt.subplots(1, 1)
 
-area_final.plot(kind='bar', ax=ax,#color=[pre_color,bh_color, oc_color, uc_color],
-    ylabel=unit, xlabel='Control')
-ax.set_title(f'{unit} of Fire')
-ax.set_ylim(0, rounded_upper_limit)
-ax.set_xticklabels([])
-stats = st.sidebar.pyplot(fig)
+    area_final.plot(kind='bar', ax=ax,#color=[pre_color,bh_color, oc_color, uc_color],
+        ylabel=unit, xlabel='Control')
+    ax.set_title(f'{unit} of Fire')
+    ax.set_ylim(0, rounded_upper_limit)
+    ax.set_xticklabels([])
+    stats = st.sidebar.pyplot(fig)
 
 
 # Filter for fires in specific provinces -- This is for Spatial use 
