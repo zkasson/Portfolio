@@ -107,8 +107,10 @@ def correct_unit(area_sdf,unit_df):
         return area_final
 area_final = correct_unit(area_sdf,unit)
 
+# Dynamically select only the columns present in the DataFrame
+available_columns = [col for col in ['Being Held', 'Out of Control', 'Prescribed', 'Under Control'] if col in area_final.columns]
 area_final = area_final.reset_index().melt(id_vars=['Province'], 
-                                                  value_vars=['Being Held', 'Out of Control', 'Prescribed', 'Under Control'],
+                                                  value_vars=available_columns,
                                                   var_name='Stage_of_Control', 
                                                   value_name='Area')
 
