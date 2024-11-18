@@ -44,7 +44,6 @@ def read_json(url):
     return prov_gdf
 
 
-
 # Retrieve Wildfire layer and create SDF & Retrieve territories layer and create SDF
 item_id = "21638fcd54d14a25b6f1affdef812146"
 json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/CanadaProvinces.geojson'
@@ -62,7 +61,6 @@ canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 # Create dropdown for provinces
 provinces = canada_wildfire_sdf['Province'].unique()
 province = st.sidebar.selectbox('Select a district', provinces)
-st.sidebar.write(province)
 basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.DarkMatter', 'CartoDB.Positron', 'openstreetmap','ESRI'])
 
 # Create check box and sdf for US fires
@@ -138,3 +136,35 @@ stats = st.sidebar.pyplot(fig)
 
 # Filter for fires in specific provinces -- This is for Spatial use 
 filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
+
+
+## Create the map
+
+map = leafmap.Map(
+    layers_control=True,
+    draw_control=False,
+    measure_control=False,
+    fullscreen_control=False)
+
+map.add_basemap(basemap_selection)
+map.add_gdf(
+    gdf=prov_gdf,
+    zoom_to_layer=False,
+    layer_name='Provinces',
+    info_mode='on_click',
+    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+    )
+
+selected_prov_gdf = prov_gdf[prov_gdf['Province'] == province]
+
+map.add_gdf(
+    gdf=selected_prov_gdf,
+    layer_name='Selected Province',
+    zoom_to_layer=True,
+    info_mode=None,
+    style={'color': 'black', 'fill': None, 'weight': 2.5}
+ )
+
+
+
+map_streamlit = map.to_streamlit(800, 600)
