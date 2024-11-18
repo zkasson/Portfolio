@@ -158,6 +158,12 @@ map = leafmap.Map(
 
 map.add_basemap(basemap_selection)
 map.add_gdf(
+    gdf=canada_wildfire_sdf,
+    zoom_to_layer=False,
+    layer_name='Fires',
+    info_mode='on_click',
+    )
+map.add_gdf(
     gdf=provs_gdf,
     zoom_to_layer=False,
     layer_name='Provinces',
