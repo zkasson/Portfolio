@@ -16,7 +16,6 @@ st.sidebar.info('Explore Active Wildfire in Canada')
 
 # Dictionary to map agency codes to province names
 agency_to_province = {
-    'ak': 'Alaska',
     'ab': 'Alberta',
     'bc': 'British Columbia',
     'mb': 'Manitoba',
@@ -40,8 +39,8 @@ def read_fl(item_id):
     return sdf
 @st.cache_data
 def read_json(url):
-    prov_gdf = gpd.read_file(url)
-    return prov_gdf
+    provs_gdf = gpd.read_file(url)
+    return provs_gdf
 
 
 # Retrieve Wildfire layer and create SDF & Retrieve territories layer and create SDF
@@ -52,14 +51,14 @@ provs_gdf = read_json(json_file)
 st.write(provs_gdf)
 
 # Filter and create Province column, Map from agency to province
-conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
-canada_wildfire_sdf = wildfire_sdf[wildfire_sdf['Agency'] != 'conus']
+conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus' | wildfire_sdf['Agency'] == 'ak']
+canada_wildfire_sdf = wildfire_sdf[wildfire_sdf['Agency'] != 'conus' | wildfire_sdf['Agency'] != 'ak']
 canada_wildfire_sdf['Province'] = wildfire_sdf['Agency'].map(agency_to_province)
 canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 
 
 # Create dropdown for provinces
-provinces = canada_wildfire_sdf['Province'].unique()
+provinces = provs_gdf['Province'].unique()
 province = st.sidebar.selectbox('Select a district', provinces)
 basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.DarkMatter', 'CartoDB.Positron', 'openstreetmap','ESRI'])
 
@@ -155,10 +154,10 @@ map.add_gdf(
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
 
-selected_provs_gdf = provs_gdf[provs_gdf['Province'] == province]
+selected_prov_gdf = provs_gdf[provs_gdf['Province'] == province]
 
 map.add_gdf(
-    gdf=selected_provs_gdf,
+    gdf=selected_prov_gdf,
     layer_name='Selected Province',
     zoom_to_layer=True,
     info_mode=None,
