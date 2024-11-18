@@ -177,4 +177,4 @@ map.add_gdf(
 
 
 
-map_streamlit = map.to_streamlit(800, 600)
+map_streamlit = map.to_streamlit(900, 700)
