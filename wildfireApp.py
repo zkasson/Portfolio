@@ -48,8 +48,8 @@ def read_json(url):
 item_id = "21638fcd54d14a25b6f1affdef812146"
 json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/CanadaProvinces.geojson'
 wildfire_sdf = read_fl(item_id)
-prov_gdf = read_json(json_file)
-st.write(prov_gdf)
+provs_gdf = read_json(json_file)
+st.write(provs_gdf)
 
 # Filter and create Province column, Map from agency to province
 conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
@@ -148,14 +148,14 @@ map = leafmap.Map(
 
 map.add_basemap(basemap_selection)
 map.add_gdf(
-    gdf=prov_gdf,
+    gdf=provs_gdf,
     zoom_to_layer=False,
     layer_name='Provinces',
     info_mode='on_click',
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
 
-selected_prov_gdf = prov_gdf[prov_gdf['Province'] == province]
+selected_provs_gdf = prov_gdf[provs_gdf['Province'] == province]
 
 map.add_gdf(
     gdf=selected_prov_gdf,
