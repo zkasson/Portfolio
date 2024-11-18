@@ -41,16 +41,13 @@ def read_fl(item_id):
 @st.cache_data
 def read_json(url):
     prov_gdf = gpd.read_file(url)
-    # Clean the 'prov_name_en' column to remove brackets and rename it
-    # prov_gdf['prov_name_en'] = prov_gdf['prov_name_en'].apply(lambda x: x[0] if isinstance(x, list) else x)
-    # prov_gdf.rename(columns={'prov_name_en': 'Province'}, inplace=True)
     return prov_gdf
 
 
 
 # Retrieve Wildfire layer and create SDF & Retrieve territories layer and create SDF
 item_id = "21638fcd54d14a25b6f1affdef812146"
-json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/canada-province.geojson'
+json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/CanadaProvinces.geojson'
 wildfire_sdf = read_fl(item_id)
 prov_gdf = read_json(json_file)
 st.write(prov_gdf)
