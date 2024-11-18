@@ -155,7 +155,7 @@ map.add_gdf(
     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
     )
 
-selected_provs_gdf = prov_gdf[provs_gdf['Province'] == province]
+selected_provs_gdf = provs_gdf[provs_gdf['Province'] == province]
 
 map.add_gdf(
     gdf=selected_prov_gdf,
