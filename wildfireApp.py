@@ -150,7 +150,7 @@ filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province
 
 ## Create the map
 canada_wildfire_gdf = gpd.GeoDataFrame(canada_wildfire_sdf, geometry='SHAPE')
-
+canada_wildfire_gdf['Start_Date'] = canada_wildfire_gdf['Start_Date'].dt.strftime('%Y-%m-%d')
 
 map = leafmap.Map(
     layers_control=True,
