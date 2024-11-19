@@ -152,3 +152,37 @@ filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province
 canada_wildfire_gdf = gpd.GeoDataFrame(canada_wildfire_sdf, geometry='SHAPE')
 st.write(canada_wildfire_gdf)
 
+map = leafmap.Map(
+    layers_control=True,
+    draw_control=False,
+    measure_control=False,
+    fullscreen_control=False)
+
+map.add_basemap(basemap_selection)
+map.add_gdf(
+    gdf=canada_wildfire_gdf,
+    zoom_to_layer=False,
+    layer_name='Fires',
+    info_mode='on_click',
+    )
+map.add_gdf(
+    gdf=provs_gdf,
+    zoom_to_layer=False,
+    layer_name='Provinces',
+    info_mode='on_click',
+    style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+    )
+
+selected_prov_gdf = provs_gdf[provs_gdf['Province'] == province]
+
+map.add_gdf(
+    gdf=selected_prov_gdf,
+    layer_name='Selected Province',
+    zoom_to_layer=True,
+    info_mode=None,
+    style={'color': 'black', 'fill': None, 'weight': 2.5}
+ )
+
+
+
+map_streamlit = map.to_streamlit(800, 600)
