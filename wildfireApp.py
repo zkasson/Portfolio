@@ -9,9 +9,18 @@ gis = GIS()
 
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
-st.title('Canadian Wildfire Dashboard')
-st.sidebar.title('About')
-st.sidebar.info('Explore Active Wildfire in Canada')
+area_option = ["Canadian Wildfires","US Wildfires"]
+area_selection = st.segmented_control(
+    "Directions", area_option, selection_mode="single"
+)
+if area_selection == 'Canadian Wildfires':
+    st.title('Canadian Wildfire Dashboard')
+    st.sidebar.title('About')
+    st.sidebar.info('Explore Active Wildfire in Canada')
+else:
+    st.title('US Wildfire Dashboard')
+    st.sidebar.title('About')
+    st.sidebar.info('Explore Active Wildfire in the US')
 
 
 # Dictionary to map agency codes to province names
@@ -48,7 +57,6 @@ item_id = "21638fcd54d14a25b6f1affdef812146"
 json_file = 'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/CanadaProvinces.geojson'
 wildfire_sdf = read_fl(item_id)
 provs_gdf = read_json(json_file)
-st.write(provs_gdf)
 
 # Filter and create Province column, Map from agency to province
 conus_fires = wildfire_sdf[(wildfire_sdf['Agency'] == 'conus') | (wildfire_sdf['Agency'] == 'ak')]
@@ -59,7 +67,7 @@ canada_wildfire_sdf = canada_wildfire_sdf.drop(columns=['Agency'])
 
 # Create dropdown for provinces
 provinces = provs_gdf['Province'].unique()
-province = st.sidebar.selectbox('Select a district', provinces)
+province = st.sidebar.selectbox('Select a Province', provinces)
 basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
 
 # Create check box and sdf for US fires
