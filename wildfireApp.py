@@ -150,7 +150,7 @@ filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province
 
 ## Create the map
 canada_wildfire_gdf = gpd.GeoDataFrame(canada_wildfire_sdf, geometry='SHAPE')
-st.write(canada_wildfire_gdf)
+
 
 map = leafmap.Map(
     layers_control=True,
