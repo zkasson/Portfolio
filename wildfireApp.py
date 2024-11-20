@@ -217,7 +217,6 @@ else:
     st.title('US Wildfire Dashboard')
     st.sidebar.title('About')
     st.sidebar.info('Explore Active Wildfire in the US')
-    st.write(f'**US Wildfire Dashboard coming soon**')
 
     # Dictionary to map orgin codes to state names, desired columns, Map fire types
     origin_to_state = {
