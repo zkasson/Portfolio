@@ -333,7 +333,7 @@ else:
             "Actively Containing": "orange",
             "Uncontained": "red",
             "Contained": "green",
-            "Prescribed": "DAA520",
+            "Prescribed": "#DAA520",
             "Unknown Containment": "gray"  
         }
         area_final["Color"] = area_final["Type"].map(colors)
