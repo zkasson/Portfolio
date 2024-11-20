@@ -367,9 +367,9 @@ else:
                 fontsize=10  
             )
 
-    # Display the plot
-    plt.tight_layout()
-    stats = st.sidebar.pyplot(fig, use_container_width=True)
+        # Display the plot
+        plt.tight_layout()
+        stats = st.sidebar.pyplot(fig, use_container_width=True)
 
     # # # Create Map # # #
     map = leafmap.Map(
