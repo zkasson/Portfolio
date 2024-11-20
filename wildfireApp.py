@@ -146,7 +146,7 @@ if area_selection == 'Canadian Wildfires':
         area_final["Color"] = area_final["Stage_of_Control"].map(colors)
 
         # Create the plot
-        fig, ax = plt.subplots(1, 1)
+        fig, ax = plt.subplots(1, 1,dpi=100)
         bars = ax.bar(
             area_final["Stage_of_Control"],
             area_final["Area"],
@@ -156,7 +156,7 @@ if area_selection == 'Canadian Wildfires':
         # Customize the plot
         ax.set_ylabel(f'Area ({unit})')
         ax.set_xlabel('Control Stage')
-        ax.set_title(f'{unit} of fire within {province} by control stage')
+        ax.set_title(f'{unit} of fire within {province}')
         ax.set_ylim(0, rounded_upper_limit)
 
         ax.yaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter("{x:,.0f}"))
