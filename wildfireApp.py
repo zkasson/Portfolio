@@ -5,14 +5,14 @@ import matplotlib
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 from arcgis.gis import GIS
-from arcgis.features import GeoAccessor, GeoSeriesAccessor
+from arcgis import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
 
 # Set up 
 st.set_page_config(page_title='Dashboard', layout='wide')
 area_option = ["Canadian Wildfires","US Wildfires"]
 area_selection = st.sidebar.segmented_control(
-    "Area Selction", area_option, selection_mode="single"
+    "**Area Selction**", area_option, selection_mode="single"
 )
 if area_selection == 'Canadian Wildfires':
     st.title('Canadian Wildfire Dashboard')
@@ -230,9 +230,41 @@ else:
         return prov_gdf
 
     state_gdf = read_json(json_file)
+
+
     st.write(state_gdf)
     states = state_gdf['State'].unique()
-    state = st.sidebar.selectbox('Select a Province', states)
+    state = st.sidebar.selectbox('Select a State', states)
+    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
+
+    map = leafmap.Map(
+        layers_control=True,
+        draw_control=False,
+        measure_control=False,
+        fullscreen_control=False)
+
+    map.add_basemap(basemap_selection)
+    map.add_gdf(
+        gdf=state_gdf,
+        zoom_to_layer=False,
+        layer_name='Provinces',
+        info_mode='on_click',
+        style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+        )
+
+    selected_state_gdf = state_gdf[state_gdf['State'] == state]
+
+    map.add_gdf(
+        gdf=selected_state_gdf,
+        layer_name='Selected Province',
+        zoom_to_layer=True,
+        info_mode=None,
+        style={'color': 'black', 'fill': None, 'weight': 2.5}
+    )
+
+
+
+    map_streamlit = map.to_streamlit(800, 600)
 
 
 
