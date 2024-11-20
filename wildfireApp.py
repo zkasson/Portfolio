@@ -173,7 +173,7 @@ if area_selection == 'Canadian Wildfires':
     filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
 
 
-    ## Create the map
+    # # # Create the map # # #
     canada_wildfire_gdf = gpd.GeoDataFrame(canada_wildfire_sdf, geometry='SHAPE')
     canada_wildfire_gdf['Start_Date'] = canada_wildfire_gdf['Start_Date'].dt.strftime('%Y-%m-%d')
 
@@ -231,7 +231,7 @@ else:
     }
     desired_columns = [
         "OBJECTID","IncidentName","IncidentTypeCategory","DailyAcres","PercentContained","FireDiscoveryDateTime","DiscoveryAcres",
-        "POOCounty","POOState","FireCause","TotalIncidentPersonnel","ResidencesDestroyed","OtherStructuresDestroyed","Injuries"
+        "POOCounty","POOState","FireCause","TotalIncidentPersonnel","ResidencesDestroyed","OtherStructuresDestroyed","Injuries","SHAPE"
     ]
     fire_type = {
         'WF': 'Contained',
@@ -333,7 +333,7 @@ else:
             "Actively Containing": "orange",
             "Uncontained": "red",
             "Contained": "green",
-            "Prescribed": "#DAA520",
+            "Prescribed": "#CCCC00",
             "Unknown Containment": "gray"  
         }
         area_final["Color"] = area_final["Type"].map(colors)
@@ -366,12 +366,14 @@ else:
                 va='bottom',  
                 fontsize=10  
             )
-
         # Display the plot
         plt.tight_layout()
         stats = st.sidebar.pyplot(fig, use_container_width=True)
 
     # # # Create Map # # #
+    wildfire_gdf = gpd.GeoDataFrame(wildfire_sdf, geometry='SHAPE')
+    wildfire_gdf['Start_Date'] = wildfire_gdf['FireDiscoveryDateTime'].dt.strftime('%Y-%m-%d')
+
     map = leafmap.Map(
         layers_control=True,
         draw_control=False,
@@ -379,6 +381,12 @@ else:
         fullscreen_control=False)
 
     map.add_basemap(basemap_selection)
+    map.add_gdf(
+        gdf=wildfire_gdf,
+        zoom_to_layer=False,
+        layer_name='Fires',
+        info_mode='on_click',
+        )
     map.add_gdf(
         gdf=state_gdf,
         zoom_to_layer=False,
