@@ -1,6 +1,7 @@
 import streamlit as st
 import geopandas as gpd
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 from arcgis.gis import GIS
@@ -11,7 +12,7 @@ gis = GIS()
 st.set_page_config(page_title='Dashboard', layout='wide')
 area_option = ["Canadian Wildfires","US Wildfires"]
 area_selection = st.sidebar.segmented_control(
-    "Directions", area_option, selection_mode="single"
+    "Area Selction", area_option, selection_mode="single"
 )
 if area_selection == 'Canadian Wildfires':
     st.title('Canadian Wildfire Dashboard')
@@ -128,7 +129,7 @@ if area_selection == 'Canadian Wildfires':
     else:
         # Calculate the upper limit for the y-axis
         max_sh = area_final['Area'].max()  # Find the max value in the area column
-        upper_limit = max_sh + 5000  
+        upper_limit = max_sh + (max_sh/10) 
         rounded_upper_limit = round(upper_limit / 100) * 100 
 
 
@@ -136,13 +137,41 @@ if area_selection == 'Canadian Wildfires':
         st.sidebar.write(f'**There are no ongoing fires in {province}**')
     else:
         # Create plot
-        fig, ax = plt.subplots(1, 1)
+        colors = {
+            "Being Held": "orange",
+            "Out of Control": "red",
+            "Under Control": "green",
+            "Prescribed": "yellow"  
+        }
+        area_final["Color"] = area_final["Stage_of_Control"].map(colors)
 
-        area_final.plot(kind='bar', ax=ax,#color=[pre_color,bh_color, oc_color, uc_color],
-            ylabel=unit, xlabel='Control')
-        ax.set_title(f'{unit} of Fire')
+        # Create the plot
+        fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+        bars = ax.bar(
+            area_final["Stage_of_Control"],
+            area_final["Area"],
+            color=area_final["Color"]
+        )
+
+        # Customize the plot
+        ax.set_ylabel(f'Area ({unit})')
+        ax.set_xlabel('Control Stage')
+        ax.set_title(f'{unit} of fire within {province} by control stage')
         ax.set_ylim(0, rounded_upper_limit)
-        ax.set_xticklabels([])
+
+        ax.yaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter("{x:,.0f}"))
+
+        for bar, area in zip(bars, area_final["Area"]):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,  # x-coordinate
+                bar.get_height() + rounded_upper_limit * 0.02,  # y-coordinate
+                f'{area:,.0f} {unit}', 
+                ha='center',  
+                va='bottom',  
+                fontsize=10  
+            )
+        # Display the plot
+        plt.tight_layout()
         stats = st.sidebar.pyplot(fig)
 
 
@@ -195,3 +224,4 @@ else:
     st.sidebar.title('About')
     st.sidebar.info('Explore Active Wildfire in the US')
     st.write(f'**US Wildfire Dashboard coming soon**')
+
