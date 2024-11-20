@@ -67,9 +67,6 @@ if area_selection == 'Canadian Wildfires':
 
     # Create check box and sdf for US fires
     conus_fires = wildfire_sdf[wildfire_sdf['Agency'] == 'conus']
-    overlay_us_fires = st.sidebar.toggle('Overlay US Fires')
-    if overlay_us_fires:
-        st.sidebar.write("US Fires Layer Activated!")
 
 
     # Map different stages of control
@@ -224,5 +221,18 @@ else:
     st.sidebar.title('About')
     st.sidebar.info('Explore Active Wildfire in the US')
     st.write(f'**US Wildfire Dashboard coming soon**')
+
+    json_file = r'https://raw.githubusercontent.com/zkasson/Portfolio/refs/heads/main/US_States.json'
+
+
+    def read_json(url):
+        prov_gdf = gpd.read_file(url)
+        return prov_gdf
+
+    state_gdf = read_json(json_file)
+    st.write(state_gdf)
+    states = state_gdf['State'].unique
+    state = st.sidebar.selectbox('Select a Province', states)
+
 
 
