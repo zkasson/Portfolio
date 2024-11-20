@@ -231,7 +231,7 @@ else:
 
     state_gdf = read_json(json_file)
     st.write(state_gdf)
-    states = state_gdf['State'].unique
+    states = state_gdf['State'].unique()
     state = st.sidebar.selectbox('Select a Province', states)
 
 
