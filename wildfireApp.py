@@ -172,7 +172,7 @@ if area_selection == 'Canadian Wildfires':
             )
         # Display the plot
         plt.tight_layout()
-        st.pyplot(fig, use_container_width=True)
+        st.sidebar.pyplot(fig, use_container_width=True)
         stats = st.sidebar.pyplot(fig)
 
 
