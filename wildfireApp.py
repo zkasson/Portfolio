@@ -287,7 +287,7 @@ else:
     # Create unit variable and engineer data to use correct unit
     unit = st.sidebar.radio(
         "Select a Unit",
-        ['Hectares', 'Acres']
+        ['Acres', 'Hectares']
     )
     conversion_factor = 2.47105
     def correct_unit(area_sdf,unit_df):
@@ -326,43 +326,46 @@ else:
         rounded_upper_limit = round(upper_limit / 100) * 100 if upper_limit > 99 else 100
 
     # # # Create Chart # # #
-    colors = {
-        "Actively Containing": "orange",
-        "Uncontained": "red",
-        "Contained": "green",
-        "Prescribed": "#CCCC00",
-        "Unknown Containment": "gray"  
-    }
-    area_final["Color"] = area_final["Type"].map(colors)
+    if no_fires_bool:
+        st.sidebar.write(f'**There are no ongoing fires in {state}**')
+    else:
+        colors = {
+            "Actively Containing": "orange",
+            "Uncontained": "red",
+            "Contained": "green",
+            "Prescribed": "#CCCC00",
+            "Unknown Containment": "gray"  
+        }
+        area_final["Color"] = area_final["Type"].map(colors)
 
-    # Create the plot
-    fig, ax = plt.subplots(1, 1)
-    bars = ax.bar(
-        area_final["Type"],
-        area_final["Area"],
-        color=area_final["Color"]
-    )
-    # Customize the plot
-    plt.xticks(rotation=15, ha='right') 
-    ax.set_ylabel(f'Area ({unit})', fontsize=14, fontweight='bold') 
-    ax.set_xlabel('Control Stage', fontsize=14, fontweight='bold')
-    ax.set_title(f'{unit} of fire within {state} by control stage')
-    ax.set_ylim(0, rounded_upper_limit)
-
-    ax.yaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter("{x:,.0f}"))
-
-    for bar, area in zip(bars, area_final["Area"]):
-        # Calculate y position for the annotation text
-        text_y = bar.get_height() + 0.02 * rounded_upper_limit  
-        text_y = min(text_y, rounded_upper_limit)  
-        ax.text(
-            bar.get_x() + bar.get_width() / 2, # x-position 
-            text_y, # y-position 
-            f'{area:,.0f} {unit}',  
-            ha='center',  
-            va='bottom',  
-            fontsize=10  
+        # Create the plot
+        fig, ax = plt.subplots(1, 1)
+        bars = ax.bar(
+            area_final["Type"],
+            area_final["Area"],
+            color=area_final["Color"]
         )
+        # Customize the plot
+        plt.xticks(rotation=15, ha='right') 
+        ax.set_ylabel(f'Area ({unit})', fontsize=14, fontweight='bold') 
+        ax.set_xlabel('Control Stage', fontsize=14, fontweight='bold')
+        ax.set_title(f'{unit} of fire within {state} by control stage')
+        ax.set_ylim(0, rounded_upper_limit)
+
+        ax.yaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter("{x:,.0f}"))
+
+        for bar, area in zip(bars, area_final["Area"]):
+            # Calculate y position for the annotation text
+            text_y = bar.get_height() + 0.02 * rounded_upper_limit  
+            text_y = min(text_y, rounded_upper_limit)  
+            ax.text(
+                bar.get_x() + bar.get_width() / 2, # x-position 
+                text_y, # y-position 
+                f'{area:,.0f} {unit}',  
+                ha='center',  
+                va='bottom',  
+                fontsize=10  
+            )
 
     # Display the plot
     plt.tight_layout()
@@ -397,6 +400,7 @@ else:
 
 
     map_streamlit = map.to_streamlit(800, 600)
+
 
 
 
