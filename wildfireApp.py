@@ -373,6 +373,7 @@ else:
     # # # Create Map # # #
     wildfire_gdf = gpd.GeoDataFrame(wildfire_sdf, geometry='SHAPE')
     wildfire_gdf['Start_Date'] = wildfire_gdf['FireDiscoveryDateTime'].dt.strftime('%Y-%m-%d')
+    wildfire_gdf = wildfire_gdf.drop(columns=['FireDiscoveryDateTime'])
 
     map = leafmap.Map(
         layers_control=True,
