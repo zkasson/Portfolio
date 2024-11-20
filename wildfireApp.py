@@ -172,8 +172,7 @@ if area_selection == 'Canadian Wildfires':
             )
         # Display the plot
         plt.tight_layout()
-        st.sidebar.pyplot(fig, use_container_width=True)
-        stats = st.sidebar.pyplot(fig)
+        stats = st.sidebar.pyplot(fig, use_container_width=True)
 
 
     # Filter for fires in specific provinces -- This is for Spatial use 
