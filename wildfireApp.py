@@ -130,13 +130,13 @@ if area_selection == 'Canadian Wildfires':
         # Calculate the upper limit for the y-axis
         max_sh = area_final['Area'].max()  # Find the max value in the area column
         upper_limit = max_sh + (max_sh/10) 
-        rounded_upper_limit = round(upper_limit / 100) * 100 
+        rounded_upper_limit = round(upper_limit / 100) * 100 if upper_limit > 99 else 100
 
 
     if no_fires_bool:
         st.sidebar.write(f'**There are no ongoing fires in {province}**')
     else:
-        # Create plot
+        # # # Create Chart # # # 
         colors = {
             "Being Held": "orange",
             "Out of Control": "red",
@@ -224,4 +224,5 @@ else:
     st.sidebar.title('About')
     st.sidebar.info('Explore Active Wildfire in the US')
     st.write(f'**US Wildfire Dashboard coming soon**')
+
 
