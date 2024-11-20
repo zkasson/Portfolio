@@ -146,7 +146,7 @@ if area_selection == 'Canadian Wildfires':
         area_final["Color"] = area_final["Stage_of_Control"].map(colors)
 
         # Create the plot
-        fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+        fig, ax = plt.subplots(1, 1)
         bars = ax.bar(
             area_final["Stage_of_Control"],
             area_final["Area"],
