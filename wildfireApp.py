@@ -208,7 +208,7 @@ if area_selection == 'Canadian Wildfires':
     elif province == 'Quebec':
         zoom = 4
     centroid = selected_prov_gdf.geometry.centroid.iloc[0]
-    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=4.7)
+    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
     folium.TileLayer(f'{basemap_selection}').add_to(map)
     # Add the state GeoDataFrame
     folium.GeoJson(
