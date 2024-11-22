@@ -216,7 +216,7 @@ if area_selection == 'Canadian Wildfires':
             'fillOpacity': 0.3,
             'weight': 1
         },
-        tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+        tooltip=folium.GeoJsonTooltip(fields=["Province"], aliases=["Province:"]),
     ).add_to(map)
     folium.GeoJson(
     selected_prov_gdf,
@@ -227,7 +227,7 @@ if area_selection == 'Canadian Wildfires':
         'fillOpacity': 0.2,
         'weight': 2.5
     },
-    tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+    tooltip=folium.GeoJsonTooltip(fields=["Province"], aliases=["Province:"]),
     ).add_to(map) 
 
     
@@ -245,7 +245,7 @@ if area_selection == 'Canadian Wildfires':
         folium.Marker(
             location=(row['latitude'], row['longitude']),
             icon=fire_icon,  # Custom fire icon with dynamic size
-            tooltip=f"Acres: {row['DailyAcres']}"
+            tooltip=f"Hectares: {row['Hectares__Ha_']}"
         ).add_to(map)
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
