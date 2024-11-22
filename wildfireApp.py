@@ -397,8 +397,11 @@ else:
     wildfire_gdf['longitude'] = wildfire_gdf.geometry.x
 
     # Create the Folium map
+    zoom = 6
+    if state == 'Alaska' | state == 'Texas':
+        zoom =4
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
-    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=6)
+    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
     # Add the state GeoDataFrame (Polygons)
     folium.GeoJson(
         state_gdf,
