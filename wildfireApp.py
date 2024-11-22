@@ -396,7 +396,7 @@ else:
     wildfire_gdf['latitude'] = wildfire_gdf.geometry.y
     wildfire_gdf['longitude'] = wildfire_gdf.geometry.x
 
-    # Create the Folium map
+    # Create Map
     zoom = 6
     if state == 'Alaska':
         zoom = 4 
@@ -404,7 +404,8 @@ else:
         zoom = 4.7
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
     map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
-    # Add the state GeoDataFrame (Polygons)
+    folium.TileLayer(f'{basemap_selection}').add_to(m)
+    # Add the state GeoDataFrame
     folium.GeoJson(
         state_gdf,
         name="State",  # Layer name for toggle
@@ -416,7 +417,6 @@ else:
         },
         tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
     ).add_to(map)
-
     folium.GeoJson(
     selected_state_gdf,
     name="Selected Province",
@@ -429,7 +429,7 @@ else:
     tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
     ).add_to(map) 
 
-    # Add CircleMarkers
+    # Add Wildfires
     for _, row in wildfire_gdf.iterrows():
         folium.CircleMarker(
             location=(row['latitude'], row['longitude']),
