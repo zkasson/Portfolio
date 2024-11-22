@@ -397,7 +397,8 @@ else:
     wildfire_gdf['longitude'] = wildfire_gdf.geometry.x
 
     # Create the Folium map
-    map = folium.Map(location=[37.0, -120.0], zoom_start=6)
+    centroid = selected_state_gdf.geometry.centroid.iloc[0]
+    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=8)
     # Add the state GeoDataFrame (Polygons)
     folium.GeoJson(
         state_gdf,
@@ -432,11 +433,10 @@ else:
             fill=True,
             fill_color='orange',
             fill_opacity=0.8,
-            tooltip=f"Daily Acres: {row['DailyAcres']}"
+            tooltip=f"Acres: {row['DailyAcres']}"
         ).add_to(map)
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
-
 
 
 
