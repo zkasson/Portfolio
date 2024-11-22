@@ -258,7 +258,7 @@ else:
     # Create dropdown for States and basemap
     states = state_gdf['State'].unique()
     state = st.sidebar.selectbox('Select a State', states)
-    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
+    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
 
     # Data Engineering of wild fires
     wildfire_sdf = wildfire_sdf[desired_columns]
