@@ -379,15 +379,15 @@ else:
    
     def get_marker_size(daily_acres):
         if daily_acres < 1000:
-            return 5
+            return 6
         elif daily_acres < 10000:
-            return 10
+            return 9
         elif daily_acres < 50000:
-            return 15
+            return 14
         elif daily_acres < 300000:
-            return 20
+            return 19
         else:
-            return 25
+            return 24
     wildfire_gdf['DailyAcres'] = wildfire_gdf['DailyAcres'].fillna(0)
     wildfire_gdf['marker_size'] = wildfire_gdf['DailyAcres'].apply(get_marker_size)
 
@@ -431,7 +431,7 @@ else:
 
     
     # Path to your fire icon image
-    fire_icon_path = "https://github.com/zkasson/Portfolio/blob/main/Fire.png?raw=true"
+    fire_icon_path = "https://github.com/zkasson/Portfolio/blob/main/Fire2.png?raw=true"
     
     # Add Wildfires
     for _, row in wildfire_gdf.iterrows():
