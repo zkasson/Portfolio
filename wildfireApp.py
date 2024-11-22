@@ -258,7 +258,7 @@ else:
     # Create dropdown for States and basemap
     states = state_gdf['State'].unique()
     state = st.sidebar.selectbox('Select a State', states)
-    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
+    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
 
     # Data Engineering of wild fires
     wildfire_sdf = wildfire_sdf[desired_columns]
@@ -404,7 +404,7 @@ else:
         zoom = 4.7
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
     map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
-    folium.TileLayer(f'{basemap_selection}').add_to(m)
+    folium.TileLayer(f'{basemap_selection}').add_to(map)
     # Add the state GeoDataFrame
     folium.GeoJson(
         state_gdf,
