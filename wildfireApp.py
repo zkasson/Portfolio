@@ -197,12 +197,16 @@ if area_selection == 'Canadian Wildfires':
     canada_wildfire_gdf['latitude'] = canada_wildfire_gdf.geometry.y
     canada_wildfire_gdf['longitude'] = canada_wildfire_gdf.geometry.x
 
-    # Create Map
-    # zoom = 4.7
-    # if province == '':
-    #     zoom = 4 
-    # elif province == '':
-    #     zoom = 4
+    #Create Map
+    zoom = 4.7
+    if province == 'Yukon Territory':
+        zoom = 4.2
+    elif province == 'Northwest Territories':
+        zoom = 4
+    elif province == 'Nunavut':
+        zoom = 3.7
+    elif province == 'Quebec':
+        zoom = 4.4
     centroid = selected_prov_gdf.geometry.centroid.iloc[0]
     map = folium.Map(location=[centroid.y, centroid.x], zoom_start=4.7)
     folium.TileLayer(f'{basemap_selection}').add_to(map)
