@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
+import folium
+from folium import CircleMarker
 from arcgis.gis import GIS
 from arcgis import GeoAccessor, GeoSeriesAccessor
 gis = GIS()
@@ -369,45 +371,45 @@ else:
         plt.tight_layout()
         stats = st.sidebar.pyplot(fig, use_container_width=True)
 
-    # # # Create Map # # #
+    # # # Finish layers for Map # # #
     wildfire_gdf = gpd.GeoDataFrame(wildfire_sdf, geometry='SHAPE')
     wildfire_gdf['Start_Date'] = wildfire_gdf['FireDiscoveryDateTime'].dt.strftime('%Y-%m-%d')
     wildfire_gdf = wildfire_gdf.drop(columns=['FireDiscoveryDateTime'])
-
-    map = leafmap.Map(
-        layers_control=True,
-        draw_control=False,
-        measure_control=False,
-        fullscreen_control=False)
-
-    map.add_basemap(basemap_selection)
-    map.add_gdf(
-        gdf=wildfire_gdf,
-        zoom_to_layer=False,
-        layer_name='Fires',
-        info_mode='on_click',
-        )
-    map.add_gdf(
-        gdf=state_gdf,
-        zoom_to_layer=False,
-        layer_name='Provinces',
-        info_mode='on_click',
-        style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
-        )
-
     selected_state_gdf = state_gdf[state_gdf['State'] == state]
+   
+    def get_marker_size(daily_acres):
+        if daily_acres < 1000:
+            return 5
+        elif daily_acres < 10000:
+            return 10
+        elif daily_acres < 50000:
+            return 15
+        elif daily_acres < 300000:
+            return 20
+        else:
+            return 25
+    wildfire_gdf['DailyAcres'] = wildfire_gdf['DailyAcres'].fillna(0)
+    wildfire_gdf['marker_size'] = wildfire_gdf['DailyAcres'].apply(get_marker_size)
 
-    map.add_gdf(
-        gdf=selected_state_gdf,
-        layer_name='Selected Province',
-        zoom_to_layer=True,
-        info_mode=None,
-        style={'color': 'black', 'fill': None, 'weight': 2.5}
-    )
 
+    # # # Create Map # # #
+    map = folium.Map(location=[37.0, -120.0], zoom_start=6)  # Adjust location and zoom as needed
 
+    # Add wildfire data as CircleMarkers
+    for _, row in wildfire_gdf.iterrows():
+        folium.CircleMarker(
+            location=(row.geometry.y, row.geometry.x),  # Latitude, Longitude
+            radius=row['marker_size'],  # Dynamic radius based on DailyAcres
+            color='black',  # Outline color
+            fill=True,
+            fill_color='orange',  # Fill color
+            fill_opacity=0.8,
+            tooltip=f"Daily Acres: {row['DailyAcres']}"  # Tooltip showing acres burned
+        ).add_to(map)
 
-    map_streamlit = map.to_streamlit(800, 600)
+    # Render the map in Streamlit
+    st.components.v1.html(map._repr_html_(), height=600)
+
 
 
 
