@@ -392,23 +392,27 @@ else:
     wildfire_gdf['marker_size'] = wildfire_gdf['DailyAcres'].apply(get_marker_size)
 
 
-    # # # Create Map # # #
-    map = folium.Map(location=[37.0, -120.0], zoom_start=6)  # Adjust location and zoom as needed
+    # Ensure geometries are Point types
+    wildfire_gdf['latitude'] = wildfire_gdf.geometry.y
+    wildfire_gdf['longitude'] = wildfire_gdf.geometry.x
 
-    # Add wildfire data as CircleMarkers
+    # Create the Folium map
+    map = folium.Map(location=[37.0, -120.0], zoom_start=6)
+
+    # Add CircleMarkers
     for _, row in wildfire_gdf.iterrows():
         folium.CircleMarker(
-            location=(row.geometry.y, row.geometry.x),  # Latitude, Longitude
-            radius=row['marker_size'],  # Dynamic radius based on DailyAcres
-            color='black',  # Outline color
+            location=(row['latitude'], row['longitude']),
+            radius=row['marker_size'],
+            color='black',
             fill=True,
-            fill_color='orange',  # Fill color
+            fill_color='orange',
             fill_opacity=0.8,
-            tooltip=f"Daily Acres: {row['DailyAcres']}"  # Tooltip showing acres burned
+            tooltip=f"Daily Acres: {row['DailyAcres']}"
         ).add_to(map)
-
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
+
 
 
 
