@@ -65,7 +65,7 @@ if area_selection == 'Canadian Wildfires':
     # Create dropdown for provinces
     provinces = provs_gdf['Province'].unique()
     province = st.sidebar.selectbox('Select a Province', provinces)
-    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','ESRI'])
+    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap'])
 
 
     # Map different stages of control
@@ -171,48 +171,118 @@ if area_selection == 'Canadian Wildfires':
         stats = st.sidebar.pyplot(fig, use_container_width=True)
 
 
-    # Filter for fires in specific provinces -- This is for Spatial use 
-    filtered_fires = canada_wildfire_sdf[canada_wildfire_sdf['Province'] == province] 
-
-
+    # # # M A P # # #
     # # # Create the map # # #
     canada_wildfire_gdf = gpd.GeoDataFrame(canada_wildfire_sdf, geometry='SHAPE')
     canada_wildfire_gdf['Start_Date'] = canada_wildfire_gdf['Start_Date'].dt.strftime('%Y-%m-%d')
 
-    map = leafmap.Map(
-        layers_control=True,
-        draw_control=False,
-        measure_control=False,
-        fullscreen_control=False)
-
-    map.add_basemap(basemap_selection)
-    map.add_gdf(
-        gdf=canada_wildfire_gdf,
-        zoom_to_layer=False,
-        layer_name='Fires',
-        info_mode='on_click',
-        )
-    map.add_gdf(
-        gdf=provs_gdf,
-        zoom_to_layer=False,
-        layer_name='Provinces',
-        info_mode='on_click',
-        style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
-        )
-
     selected_prov_gdf = provs_gdf[provs_gdf['Province'] == province]
+   
+    def get_marker_size(Hectares):
+        if Hectares < 1000:
+            return 6
+        elif Hectares < 10000:
+            return 9
+        elif Hectares < 50000:
+            return 14
+        elif Hectares < 300000:
+            return 19
+        else:
+            return 24
+    canada_wildfire_gdf['Hectares__Ha_'] = canada_wildfire_gdf['Hectares__Ha_'].fillna(0)
+    canada_wildfire_gdf['marker_size'] = canada_wildfire_gdf['Hectares__Ha_'].apply(get_marker_size)
 
-    map.add_gdf(
-        gdf=selected_prov_gdf,
-        layer_name='Selected Province',
-        zoom_to_layer=True,
-        info_mode=None,
-        style={'color': 'black', 'fill': None, 'weight': 2.5}
-    )
+
+    # Ensure geometries are Point types
+    canada_wildfire_gdf['latitude'] = canada_wildfire_gdf.geometry.y
+    canada_wildfire_gdf['longitude'] = canada_wildfire_gdf.geometry.x
+
+    # Create Map
+    # zoom = 4.7
+    # if province == '':
+    #     zoom = 4 
+    # elif province == '':
+    #     zoom = 4
+    centroid = selected_prov_gdf.geometry.centroid.iloc[0]
+    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=4.7)
+    folium.TileLayer(f'{basemap_selection}').add_to(map)
+    # Add the state GeoDataFrame
+    folium.GeoJson(
+        provs_gdf,
+        name="Province",  
+        style_function=lambda x: {
+            'color': '#B2BEB5',  
+            'fillColor': '#B2BEB5', 
+            'fillOpacity': 0.3,
+            'weight': 1
+        },
+        tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+    ).add_to(map)
+    folium.GeoJson(
+    selected_prov_gdf,
+    name="Selected Province",
+    style_function=lambda x: {
+        'color': 'black',  
+        'fillColor': '#B2BEB5', 
+        'fillOpacity': 0.2,
+        'weight': 2.5
+    },
+    tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+    ).add_to(map) 
+
+    
+    # Path to your fire icon image
+    fire_icon_path = "https://github.com/zkasson/Portfolio/blob/main/Fire2.png?raw=true"
+
+    # Add Wildfires
+    for _, row in canada_wildfire_gdf.iterrows():
+        # Dynamically set the icon size based on marker_size
+        fire_icon = folium.CustomIcon(
+            fire_icon_path,
+            icon_size=(row['marker_size'] * 2, row['marker_size'] * 2)  # Scale size dynamically
+        )
+
+        folium.Marker(
+            location=(row['latitude'], row['longitude']),
+            icon=fire_icon,  # Custom fire icon with dynamic size
+            tooltip=f"Acres: {row['DailyAcres']}"
+        ).add_to(map)
+    # Render the map in Streamlit
+    st.components.v1.html(map._repr_html_(), height=600)
+    # map = leafmap.Map(
+    #     layers_control=True,
+    #     draw_control=False,
+    #     measure_control=False,
+    #     fullscreen_control=False)
+
+    # map.add_basemap(basemap_selection)
+    # map.add_gdf(
+    #     gdf=canada_wildfire_gdf,
+    #     zoom_to_layer=False,
+    #     layer_name='Fires',
+    #     info_mode='on_click',
+    #     )
+    # map.add_gdf(
+    #     gdf=provs_gdf,
+    #     zoom_to_layer=False,
+    #     layer_name='Provinces',
+    #     info_mode='on_click',
+    #     style={'color': '#B2BEB5', 'fillOpacity': 0.3, 'weight': 0.5},
+    #     )
+
+    # selected_prov_gdf = provs_gdf[provs_gdf['Province'] == province]
+
+    # map.add_gdf(
+    #     gdf=selected_prov_gdf,
+    #     layer_name='Selected Province',
+    #     zoom_to_layer=True,
+    #     info_mode=None,
+    #     style={'color': 'black', 'fill': None, 'weight': 2.5}
+    # )
 
 
 
-    map_streamlit = map.to_streamlit(800, 600)
+    # map_streamlit = map.to_streamlit(800, 600)
 
 
 else:
@@ -371,6 +441,8 @@ else:
         plt.tight_layout()
         stats = st.sidebar.pyplot(fig, use_container_width=True)
 
+
+    # # # M A P # # #
     # # # Finish layers for Map # # #
     wildfire_gdf = gpd.GeoDataFrame(wildfire_sdf, geometry='SHAPE')
     wildfire_gdf['Start_Date'] = wildfire_gdf['FireDiscoveryDateTime'].dt.strftime('%Y-%m-%d')
@@ -419,7 +491,7 @@ else:
     ).add_to(map)
     folium.GeoJson(
     selected_state_gdf,
-    name="Selected Province",
+    name="Selected State",
     style_function=lambda x: {
         'color': 'black',  # Border color
         'fillColor': '#B2BEB5',  # Fill color for selected state
@@ -432,7 +504,7 @@ else:
     
     # Path to your fire icon image
     fire_icon_path = "https://github.com/zkasson/Portfolio/blob/main/Fire2.png?raw=true"
-    
+
     # Add Wildfires
     for _, row in wildfire_gdf.iterrows():
         # Dynamically set the icon size based on marker_size
@@ -444,10 +516,11 @@ else:
         folium.Marker(
             location=(row['latitude'], row['longitude']),
             icon=fire_icon,  # Custom fire icon with dynamic size
-            tooltip=f"Daily Acres: {row['DailyAcres']}"
+            tooltip=f"Acres: {row['DailyAcres']}"
         ).add_to(map)
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
+
 
 
 
