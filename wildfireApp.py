@@ -398,6 +398,30 @@ else:
 
     # Create the Folium map
     map = folium.Map(location=[37.0, -120.0], zoom_start=6)
+    # Add the state GeoDataFrame (Polygons)
+    folium.GeoJson(
+        state_gdf,
+        name="State",  # Layer name for toggle
+        style_function=lambda x: {
+            'color': '#B2BEB5',  # Border color
+            'fillColor': '#B2BEB5',  # Fill color
+            'fillOpacity': 0.3,
+            'weight': 0.5
+        },
+        tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+    ).add_to(map)
+
+    folium.GeoJson(
+    selected_state_gdf,
+    name="Selected Province",
+    style_function=lambda x: {
+        'color': 'black',  # Border color
+        'fillColor': '#B2BEB5',  # Fill color for selected state
+        'fillOpacity': 0.2,
+        'weight': 2.5
+    },
+    tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
+    ).add_to(map) 
 
     # Add CircleMarkers
     for _, row in wildfire_gdf.iterrows():
@@ -412,7 +436,6 @@ else:
         ).add_to(map)
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
-
 
 
 
