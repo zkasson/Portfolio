@@ -398,7 +398,7 @@ else:
 
     # Create the Folium map
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
-    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=4)
+    map = folium.Map(location=[centroid.y, centroid.x], zoom_start=6)
     # Add the state GeoDataFrame (Polygons)
     folium.GeoJson(
         state_gdf,
