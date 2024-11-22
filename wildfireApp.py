@@ -399,7 +399,9 @@ else:
     # Create the Folium map
     zoom = 6
     if state == 'Alaska':
-        zoom =4
+        zoom = 4 
+    elif state == 'Texas':
+        zoom = 4.7
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
     map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
     # Add the state GeoDataFrame (Polygons)
