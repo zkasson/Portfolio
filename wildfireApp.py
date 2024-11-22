@@ -179,13 +179,13 @@ if area_selection == 'Canadian Wildfires':
     selected_prov_gdf = provs_gdf[provs_gdf['Province'] == province]
    
     def get_marker_size(Hectares):
-        if Hectares < 1000:
+        if Hectares < 5000:
             return 6
-        elif Hectares < 10000:
+        elif Hectares < 80000:
             return 9
-        elif Hectares < 50000:
+        elif Hectares < 250000:
             return 14
-        elif Hectares < 300000:
+        elif Hectares < 450000:
             return 19
         else:
             return 24
