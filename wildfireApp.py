@@ -398,7 +398,7 @@ else:
 
     # Create the Folium map
     zoom = 6
-    if state == 'Alaska' | state == 'Texas':
+    if state == 'Alaska':
         zoom =4
     centroid = selected_state_gdf.geometry.centroid.iloc[0]
     map = folium.Map(location=[centroid.y, centroid.x], zoom_start=zoom)
