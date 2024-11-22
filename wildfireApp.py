@@ -258,7 +258,7 @@ else:
     # Create dropdown for States and basemap
     states = state_gdf['State'].unique()
     state = st.sidebar.selectbox('Select a State', states)
-    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap','Stamen Terrain'])
+    basemap_selection = st.sidebar.selectbox('Select a basemap', ['CartoDB.Positron', 'CartoDB.DarkMatter', 'openstreetmap'])
 
     # Data Engineering of wild fires
     wildfire_sdf = wildfire_sdf[desired_columns]
@@ -429,19 +429,26 @@ else:
     tooltip=folium.GeoJsonTooltip(fields=["State"], aliases=["State:"]),
     ).add_to(map) 
 
+    
+    # Path to your fire icon image
+    fire_icon_path = "https://github.com/zkasson/Portfolio/blob/main/Fire.png?raw=true"
+    
     # Add Wildfires
     for _, row in wildfire_gdf.iterrows():
-        folium.CircleMarker(
+        # Dynamically set the icon size based on marker_size
+        fire_icon = folium.CustomIcon(
+            fire_icon_path,
+            icon_size=(row['marker_size'] * 2, row['marker_size'] * 2)  # Scale size dynamically
+        )
+
+        folium.Marker(
             location=(row['latitude'], row['longitude']),
-            radius=row['marker_size'],
-            color='black',
-            fill=True,
-            fill_color='orange',
-            fill_opacity=0.8,
-            tooltip=f"Acres: {row['DailyAcres']}"
+            icon=fire_icon,  # Custom fire icon with dynamic size
+            tooltip=f"Daily Acres: {row['DailyAcres']}"
         ).add_to(map)
     # Render the map in Streamlit
     st.components.v1.html(map._repr_html_(), height=600)
+
 
 
 
