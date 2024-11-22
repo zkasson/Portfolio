@@ -202,9 +202,9 @@ if area_selection == 'Canadian Wildfires':
     if province == 'Yukon Territory':
         zoom = 4
     elif province == 'Northwest Territories':
-        zoom = 3.5
+        zoom = 2.8
     elif province == 'Nunavut':
-        zoom = 3
+        zoom = 2.5
     elif province == 'Quebec':
         zoom = 4
     centroid = selected_prov_gdf.geometry.centroid.iloc[0]
