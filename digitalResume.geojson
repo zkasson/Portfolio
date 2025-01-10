@@ -1,0 +1,155 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 1,
+        "Name": "Cincinnati",
+        "Description": "I was born in Cincinnati and grew up in Northern Kentucky in a lively and chaotic household with three brothers.",
+        "Experience": " the importance of having fun. I try to carry this lesson with me in everything I do today, finding joy and maintaining a positive outlook no matter the circumstances.",
+        "zoom": "7",
+        "Icon": "house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.545013, 39.058440]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 2,
+        "Name": "NE Ohio",
+        "Description": "In middle school, I moved to Cleveland, Ohio, where I experienced a new environment and friendships.",
+        "Experience": "the value of hard work, as this is where I had many of my first jobs, learning the importance of job responsibility.",
+        "zoom": "7",
+        "Icon": "house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.636424, 41.199174]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 3,
+        "Name": "Cuyahoga Valley National Park - Community Engagement Intern",
+        "Description": "As a Community Engagement Intern at Cuyahoga Valley National Park, I provided engaging cultural and natural interpretations of the park’s features to visitors. I also interacted regularly with park visitors, offering information as needed to ensure they had an enjoyable experience.",
+        "Experience": "to communicate with diverse groups of people. The National Park was my first opportunity to engage with people from such diverse walks of life. This experience was insightful because it taught me how to communicate more effectively by understanding and connecting with people as they were.",
+        "zoom": "10.4",
+        "Icon": "briefcase"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.5554, 41.2414]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 4,
+        "Name": "Queens University of Charlotte - GIS Assistant",
+        "Description": "While earning a degree in Biology and playing college lacrosse, I had my introduction to GIS at Queens University of Charlotte. My formal GIS education began here, where I had the opportunity to collaborate with a nonprofit organization to create web maps displaying top polluters within the Catawba River Basin.",
+        "Experience": "to be open to new ways of thinking. College was an insightful experience, allowing me to get to know new perspectives and cultivate my own from the many I encountered.",
+        "zoom": "7.2",
+        "Icon": "school"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.8431, 35.2271]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 5,
+        "Name": "Ohio State University",
+        "Description": "I completed my undergraduate degree in Biology at Ohio State University, where I gained a solid foundation in the field amongst many other interesting topics such as molecular biology, organic chemistry, medieval art, and evolution.",
+        "Experience": "how to learn independently. In my freshman calculus class, I was handed a textbook and told that I would be tested on its contents. This experience taught me where and how to find pertinent information, a skill that has been invaluable throughout my academic and professional journey.",
+        "zoom": "7.5",
+        "Icon": "user-graduate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.008929, 39.998276]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 6,
+        "Name": "Kupu - HYCC Team Leader",
+        "Description": "As a Team Leader for Kupu’s Hawaii Youth Conservation Corps (HYCC), I supervised a team of four interns while completing environmental restoration projects. I was responsible for ensuring that projects were executed efficiently, safely, and in alignment with the orginizations conservation goals.",
+        "Experience": "to listen more, talk less, so I could respect others in a way that aligned with their values and culure. This taught me that effective leadership involves not just managing tasks, but understanding and honoring the unique experiences of those around you.",
+        "zoom": "7.7",
+        "Icon": "briefcase"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-156.5047, 20.8919]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 7,
+        "Name": "Ohio State University Department of EEOB - Teaching Assistant",
+        "Description": "As a Teaching Assistant for the Department of Evolution, Ecology, and Organismal Biology, I managed a lab setting of 25 students by preparing materials and effectively communicating complex concepts. My responsibilities included fostering an engaging learning environment and ensuring students grasped key principles through clear explanations and support.",
+        "Experience": "the importance of presenting information in a digestible way tailored to different individuals, allowing me to better address diverse learning styles and needs.",
+        "zoom": "16",
+        "Icon": "person-chalkboard"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.015407, 39.996748]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 8,
+        "Name": "Ohio State University - Undergraduate Research Assistant",
+        "Description": "As an Undergraduate Research Assistant, I standardized raw, qualitative data related to the biology curriculum at Ohio State University. This data was used to assess and score professors on their ability to effectively teach the outlined curriculum. My work contributed to a better understanding of instructional quality and alignment with academic goals.",
+        "Experience": "that asking the right questions is crucial, as poor questions lead to ambiguous answers, making the data difficult to work with. I also discovered that coding is not only more efficient but far less exhausting than working in Excel!",
+        "zoom": "16",
+        "Icon": "database"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.008571, 39.997656]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 9,
+        "Name": "Hampton Resources - GIS Analyst",
+        "Description": "As a GIS Analyst at Hampton Resources, I analyzed geospatial data, created maps, maintained GIS databases, and performed spatial analyses to support decision-making. Using Python and JavaScript, I regularly built tools to help foresters visualize data in real-time, improving their ability to address spatial challenges effectively. Collaborating closely with foresters, I worked to solve and reduce spatial challenges across approximately 365,000 acres of managed land.",
+        "Experience": "the importance of seeking out and collaborating with those who have greater expertise. I was often the only person who could solve complex issues with code. When I encountered roadblocks, I had to think creatively and seek out people who could help me overcome these challenges.",
+        "zoom": "7",
+        "Icon": "briefcase"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.0351, 44.9429]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 10,
+        "Name": "URISA Emerging Professionals Program - Board Member",
+        "Description": "I have been an active participant in the URISA Emerging Professionals Program for about a year and a half, with the latter half of my involvement serving on the board. In my role as a board member, I have had the opportunity to contribute to the program’s mission by organizing meetings/agendas, selecting mentors/mentees, and encouraging GIS professionals to join the broader GIS conversation. My focus has been on facilitating meaningful connections between professionals at all stages of their careers, helping to build a supportive and dynamic community within the GIS field.",
+        "Experience": "GIS is a awesome field filled with smart people who do some really amazing things! I am grateful for the many ideas that I have picked up during this journey.",
+        "zoom": "8",
+        "Icon": "briefcase"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.6765, 45.5231]
+      }
+    }
+  ]
+}
